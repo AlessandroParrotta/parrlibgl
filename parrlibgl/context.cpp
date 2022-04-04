@@ -21,6 +21,7 @@ namespace prb {
 	namespace Context {
 
 		bool initialized = false;
+		bool inited = false;
 		std::vector<std::string> args;
 
 		std::string title = "OpenGL Parrlib Application";
@@ -408,7 +409,7 @@ namespace prb {
 			wbb = { 0.f, wsize };
 
 			if (vscalingMode == 0) { resize(vec2(width, height)); }
-			frame();
+			if(inited) frame();
 		}
 
 		void scrollcallback(GLFWwindow* window, double xoffset, double yoffset) {
@@ -425,6 +426,8 @@ namespace prb {
 		void setup(std::vector<std::function<void()>> const& tfuncs, std::string const& args) {
 			Timer tinit;
 			std::cout << "initializing...\n";
+
+			if (cst::resx() != 0.f && cst::resy() != 0.f && vscalingMode == SCALING_MODE_ONE_TO_ONE) scalingMode(SCALING_MODE_FLOATING_RATIO);
 
 			funcs = tfuncs;
 			if (funcs.size() < 7) {
@@ -469,7 +472,7 @@ namespace prb {
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { std::cout << "Failed to initialize GLAD" << std::endl; std::terminate(); }
 
 			wsize = vec2(monitorvidmode->width, monitorvidmode->height);
-			if (cst::resx() == 0.f || cst::resy() == 0.f) cst::res(wsize);
+			if (cst::resx() == 0.f || cst::resy() == 0.f) { std::cout << "automatically setting resoliution to " << wsize << "\n"; cst::res(wsize); }
 
 			input::addActiveLayer(INPUT_LAYER_DEFAULT);
 
@@ -505,6 +508,8 @@ namespace prb {
 			resize(cst::res());
 
 			funcs[FINIT]();
+
+			inited = true;
 
 			start();
 
