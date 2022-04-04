@@ -65,6 +65,12 @@ namespace prb {
 			for (int j = 0; j < chnum; j++) { vals[i + j] = val[j]; }
 		}
 
+		//size_t s = size.x * size.y * chnum;
+		//T* vals = new T[s];
+		//for (size_t i = 0; i < s; i += chnum) {
+		//	for (int j = 0; j < chnum; j++) { vals[i + j] = val[j]; }
+		//}
+
 		bind();
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, size.x, size.y, border, format, type, vals);
 		unbind();

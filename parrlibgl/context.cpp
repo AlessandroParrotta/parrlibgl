@@ -175,7 +175,7 @@ namespace prb {
 
 		void resize(vec2 const& size) {
 			if (size.x == 0 || size.y == 0) return;
-			if (vscalingMode == 0 && size != wsize) scalingMode(2);
+			if (vscalingMode == SCALING_MODE_ONE_TO_ONE && size != wsize) { scalingMode(SCALING_MODE_FLOATING_RATIO); }
 
 			cst::res(size);
 
@@ -423,8 +423,6 @@ namespace prb {
 		//HWND hWnd = GetConsoleWindow();
 		//ShowWindow(hWnd, SW_HIDE);
 		void setup(std::vector<std::function<void()>> const& tfuncs, std::string const& args) {
-			vec2 fboRes = cst::res();
-
 			Timer tinit;
 			std::cout << "initializing...\n";
 
@@ -447,7 +445,7 @@ namespace prb {
 			if (!monitorvidmode) { std::cout << "error trying to get video mode\n"; std::terminate(); }
 
 			refreshRate = monitorvidmode->refreshRate;
-			cst::res(vec2(monitorvidmode->width, monitorvidmode->height));
+			if(cst::resx() == 0.f || cst::resy() == 0.f) cst::res(vec2(monitorvidmode->width, monitorvidmode->height));
 
 			glfwWindowHint(GLFW_REFRESH_RATE, refreshRate);
 
@@ -471,7 +469,7 @@ namespace prb {
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { std::cout << "Failed to initialize GLAD" << std::endl; std::terminate(); }
 
 			wsize = vec2(monitorvidmode->width, monitorvidmode->height);
-			cst::res(wsize);
+			if (cst::resx() == 0.f || cst::resy() == 0.f) cst::res(wsize);
 
 			input::addActiveLayer(INPUT_LAYER_DEFAULT);
 
@@ -481,10 +479,6 @@ namespace prb {
 			//DebugDisplay_Old::init();
 
 			setVSync(vSync);
-
-			if (fboRes == 0.f) fboRes = cst::res();
-
-			std::cout << "fbo resolution " << fboRes << "\n";
 
 			fbo = FrameBufferObject((int)cst::resx(), (int)cst::resy(), GL_NEAREST, GL_NEAREST);
 			//fbo = FrameBufferObject((int)fboRes.x, (int)fboRes.y, GL_NEAREST, GL_NEAREST);
@@ -501,16 +495,16 @@ namespace prb {
 
 			debugmenu::init();
 
-			if (fboRes != 0.f) { /*std::cout << "resize fbo\n";*/ resize(fboRes); }
-
-			funcs[FINIT]();
-
 			glfwMaximizeWindow(glfwwindow);
 
 			std::cout << "set fullscreen " << fullscreen << "\n";
 			setFullscreenPriv(fullscreen);
 
-			if (fboRes != 0.f) { /*std::cout << "resize fbo\n";*/ resize(fboRes); }
+			if (scalingMode() == SCALING_MODE_ONE_TO_ONE) cst::res(wsize);
+
+			resize(cst::res());
+
+			funcs[FINIT]();
 
 			start();
 
