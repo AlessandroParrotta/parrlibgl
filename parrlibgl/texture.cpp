@@ -37,6 +37,8 @@ namespace prb {
 	void Texture::setPixel(vec2 pos, vec4 col) {
 		if (pos.x < 0.f || pos.y < 0.f || pos.x > size.x || pos.y > size.y) return;
 
+		col.clamp(0.f, 1.f);
+
 		const unsigned char data[] = {
 			(unsigned char)(col.x * 255.f),
 			(unsigned char)(col.y * 255.f),
