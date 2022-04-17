@@ -18,6 +18,9 @@ namespace prb {
 
 		float resaspectx() { return dres.x / dres.y; }
 		float resaspecty() { return dres.y / dres.x; }
-		float resaspect() { return std::fmin(resaspectx(), resaspecty()); }
+
+		float resminaspect() { return std::fmin(resaspectx(), resaspecty()); }
+		float resmaxaspect() { return std::fmax(resaspectx(), resaspecty()); }
+		float resaspect() { return resmaxaspect(); }
 	}
 }

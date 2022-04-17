@@ -11,7 +11,7 @@ namespace prb {
 
 		bool enabled = true;
 
-		logss log, rtlog;
+		std::wstringstream dss, drtss;
 
 		float slider = 0.0f;
 		float sliderPerc = 0.0f;
@@ -24,7 +24,7 @@ namespace prb {
 		int maxStrs = 1000;
 		int maxRTStrs = 100;
 
-		bool enableMsgCorner = false;
+		bool enableMsgCorner = true;
 
 		std::vector<std::wstring> strs;
 		std::vector<std::wstring> rtStrs;
@@ -58,21 +58,18 @@ namespace prb {
 		Vector2f beginSliderMovePos;
 
 		void update() {
-			if (enabled) {
-				//something
-			}
-			else {
-				log.clear();
-				log.str(L"");
-				rtlog.clear();
-				rtlog.str(L"");
+			if (!enabled) {
+				dss.clear();
+				dss.str(L"");
+				drtss.clear();
+				drtss.str(L"");
 			}
 		}
 
-		void print(std::string s) { if (enabled) log << s.c_str(); }
-		void println(std::string s) { if (enabled) log << s.c_str() << "\n"; }
-		void rtPrint(std::string s) { if (enabled) rtlog << s.c_str(); }
-		void rtPrintln(std::string s) { if (enabled) rtlog << s.c_str() << "\n"; }
+		void print(std::string s) { if (enabled) dss << s.c_str(); }
+		void println(std::string s) { if (enabled) dss << s.c_str() << "\n"; }
+		void rtPrint(std::string s) { if (enabled) drtss << s.c_str(); }
+		void rtPrintln(std::string s) { if (enabled) drtss << s.c_str() << "\n"; }
 
 		struct DebugObject {
 			Vector2f pos;
@@ -193,8 +190,13 @@ namespace prb {
 				strs.erase(strs.begin(), strs.begin() + (strs.size() - maxStrs));
 			}
 
-			if (log.str().length() > 0) { parseLogs(log, strs); log.str(L""); log.clear(); }
-			if (rtlog.str().length() > 0) { parseLogs(rtlog, rtStrs); rtlog.str(L""); rtlog.clear(); }
+			if (dss.str().length() > 0) { 
+				std::vector<std::wstring> parsed = stru::toLines(dss.str());
+				strs.insert(strs.end(), parsed.begin(), parsed.end());
+				dss.clear();
+				dss.str(L"");
+			}
+			if (drtss.str().length() > 0) { parseLogs(drtss, rtStrs); drtss.str(L""); drtss.clear(); }
 
 			float aspectCorrect = cst::resaspect();
 			float scaleFactor = 1.f;
@@ -221,8 +223,8 @@ namespace prb {
 			rtStrs.clear();
 
 			if (enableMsgCorner) {
-				glColor4f(1.0f, 1.0f, 1.0f, 0.2f);
-				util::drawQuad(Vector2f(-1.0f), Vector2f(0.4f, 1.0f));
+				//glColor4f(1.0f, 1.0f, 1.0f, 0.2f);
+				//util::drawQuad(Vector2f(-1.0f), Vector2f(0.4f, 1.0f));
 
 				float sliderVal = slider / 2.0f;
 
@@ -237,23 +239,23 @@ namespace prb {
 					if (ypos >= 0.0f) break;
 
 
-					txr.drawWStringpx(strs[i], vec2(1.f), pmat3::translate(pmat3::orthoAspectY(prc::res()) * vec2(-1.f, ypos)));
+					txr.drawWStringpx(strs[i], vec2(1.f), pmat3::translate(pmat3::orthoMaxAspect(prc::res()) * vec2(-1.f, ypos)));
 					//std::cout << "drawStr\n";
 				}
 
-				if (cheight * strs.size() >= 1.0f) {
-					if (sliderLock) {
-						glColor4f(0.2f, 0.2f, 0.2f, 1.0f);
-					}
-					else if (input::getMouseInQuad(sliderPos, sliderSize)) {
-						glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
-					}
-					else {
-						glColor4f(0.6f, 0.6f, 0.6f, 1.0f);
-					}
+				//if (cheight * strs.size() >= 1.0f) {
+				//	if (sliderLock) {
+				//		glColor4f(0.2f, 0.2f, 0.2f, 1.0f);
+				//	}
+				//	else if (input::getMouseInQuad(sliderPos, sliderSize)) {
+				//		glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
+				//	}
+				//	else {
+				//		glColor4f(0.6f, 0.6f, 0.6f, 1.0f);
+				//	}
 
-					util::drawQuad(sliderPos, Vector2f(0.01f, 0.06f));
-				}
+				//	util::drawQuad(sliderPos, Vector2f(0.01f, 0.06f));
+				//}
 			}
 		}
 	}

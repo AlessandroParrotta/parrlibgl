@@ -3,7 +3,6 @@
 #ifndef parrlib_h
 #define parrlib_h
 
-//#include "mesh3d.h"
 
 #include <parrlib/math/vector2f.h>
 #include <parrlib/math/vector3f.h>
@@ -15,7 +14,10 @@
 #include <parrlib/math/matrix4f.h>
 #include <parrlib/math/quaternion.h>
 
-#include <parrlib/math/utils3d/camera3d.h>
+//#include "mesh3d.h"
+#include <parrlib/math/utils3d/geom3d.h>
+#include <parrlib/math/utils3d/utils3d.h>
+#include "camera3d.h"
 
 #include "context.h"
 #include "constants.h"

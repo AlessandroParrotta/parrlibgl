@@ -21,6 +21,9 @@ namespace prb {
 
 		float resaspectx();
 		float resaspecty();
+
+		float resminaspect();
+		float resmaxaspect();
 		float resaspect();
 
 	}

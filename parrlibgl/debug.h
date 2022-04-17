@@ -14,45 +14,7 @@ namespace prb {
 
 		extern bool enabled;
 
-		class logss : public std::wstringstream {
-			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-		public:
-			logss& operator<< (const char* str) {
-				*this << converter.from_bytes(str);
-				return *this;
-			}
-
-			logss& operator<< (std::string const& str) {
-				*this << converter.from_bytes(str);
-				return *this;
-			}
-
-			logss& operator<< (std::wstring const& v) { *((std::wstringstream*)(this)) << v; return *this; }
-
-			logss& operator<< (int const& v) { *((std::wstringstream*)(this)) << v; return *this; }
-			logss& operator<< (unsigned int const& v) { *((std::wstringstream*)(this)) << v; return *this; }
-			logss& operator<< (float const& v) { *((std::wstringstream*)(this)) << v; return *this; }
-			logss& operator<< (double const& v) { *((std::wstringstream*)(this)) << v; return *this; }
-		};
-
-		extern logss log, rtlog;
-
-		/*class stringstreamall {
-		public:
-			std::stringstream ss;
-			Console &cs;
-			template<typename T>
-			std::stringstream operator<< (T val) {
-				log << val;
-				cs::log << val;
-				ss << val;
-			}
-
-			stringstreamall(Console &cs) : cs(cs) {
-
-			}
-		};
-		extern stringstreamall logall;*/
+		extern std::wstringstream dss, drtss;
 
 		extern float slider;
 
@@ -84,22 +46,9 @@ namespace prb {
 		void rtPrint(std::string s);
 		void rtPrintln(std::string s);
 
-		inline std::stringstream& composess() { static std::stringstream composesst; return composesst; };
-		template<typename... Args> inline std::string compose(Args... args) {
-			int unpack[] = { ([](auto& arg) {
-				composess() << arg;
-			}(args), 0)..., 0 };
-			static_cast<void>(unpack);
-
-			std::string str = composess().str();
-			composess().clear(); composess().str("");
-
-			return str;
-		}
-		template<typename... Args> inline std::string fmt(Args... args) { return compose(args...); }
-		template<typename... Args> inline void pr(Args... args) { log << compose(args...); }
-		template<typename... Args> inline void prt(Args... args) { rtlog << compose(args...); }
-		template<typename... Args> inline void out(Args... args) { std::cout << compose(args...); }
+		template<typename... Args> inline void pr(Args... args) { dss << stru::composew(args...); }
+		template<typename... Args> inline void prt(Args... args) { drtss << stru::composew(args...); }
+		template<typename... Args> inline void out(Args... args) { std::wstring str = stru::composew(args...); OutputDebugString(str.c_str()); std::wcout << str; }
 
 		namespace th {
 			extern std::mutex mtx;
@@ -117,9 +66,9 @@ namespace prb {
 
 				return str;
 			}
-			template<typename... Args> inline void pr(Args... args) { std::lock_guard<std::mutex> lck(mtx); log << compose(args...); }
-			template<typename... Args> inline void prt(Args... args) { std::lock_guard<std::mutex> lck(mtx); rtlog << compose(args...); }
-			template<typename... Args> inline void out(Args... args) { std::lock_guard<std::mutex> lck(mtx); std::cout << compose(args...); }
+			template<typename... Args> inline void pr(Args... args) { std::lock_guard<std::mutex> lck(mtx); dss << composew(args...); }
+			template<typename... Args> inline void prt(Args... args) { std::lock_guard<std::mutex> lck(mtx); drtss << composew(args...); }
+			template<typename... Args> inline void out(Args... args) { std::lock_guard<std::mutex> lck(mtx); std::cout << composew(args...); }
 		}
 
 
@@ -155,3 +104,45 @@ namespace prb {
 	namespace deb = debug;
 #endif
 }
+
+//class logss : public std::wstringstream {
+//	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+//public:
+//	logss& operator<< (const char* str) {
+//		*this << converter.from_bytes(str);
+//		return *this;
+//	}
+
+//	logss& operator<< (std::string const& str) {
+//		*this << converter.from_bytes(str);
+//		return *this;
+//	}
+
+//	logss& operator<< (std::wstring const& v) { *((std::wstringstream*)(this)) << v; return *this; }
+
+//	logss& operator<< (int const& v) { *((std::wstringstream*)(this)) << v; return *this; }
+//	logss& operator<< (unsigned int const& v) { *((std::wstringstream*)(this)) << v; return *this; }
+//	logss& operator<< (float const& v) { *((std::wstringstream*)(this)) << v; return *this; }
+//	logss& operator<< (double const& v) { *((std::wstringstream*)(this)) << v; return *this; }
+//};
+
+//extern logss log, rtlog;
+
+
+
+		/*class stringstreamall {
+		public:
+			std::stringstream ss;
+			Console &cs;
+			template<typename T>
+			std::stringstream operator<< (T val) {
+				log << val;
+				cs::log << val;
+				ss << val;
+			}
+
+			stringstreamall(Console &cs) : cs(cs) {
+
+			}
+		};
+		extern stringstreamall logall;*/

@@ -17,6 +17,13 @@ namespace prb {
 	namespace input {
 		void processInput(GLFWwindow* window);
 
+		HWND windowHwnd;
+
+		const int MOUSE_NORMAL = 0;
+		const int MOUSE_LOCKED = 1;
+		const int MOUSE_HIDDEN = 2;
+		int mouseStatus = MOUSE_NORMAL;
+
 		const int KEYS_LENGTH = 349;
 		const int MOUSE_LENGTH = 12;
 
@@ -43,6 +50,8 @@ namespace prb {
 		float aspectRatio = 0.0f;
 
 		void init() {
+			//windowHwnd = glfwGetWin32Window();
+			windowHwnd = GetActiveWindow();
 
 			aspectRatio = cst::resaspect();
 			for (int i = 0; i < KEYS_LENGTH; i++) {
@@ -496,6 +505,39 @@ namespace prb {
 			}
 			return result;
 		}
+
+
+		void setMouseVisible(bool visible) {
+			if (visible) while (ShowCursor(true) < 0) {}
+			else		while (ShowCursor(false) >= 0) {}
+		}
+		void showMouse() { setMouseVisible(true); }
+		void hideMouse() { setMouseVisible(false); }
+
+		void setMousePos(vec2 pos) { POINT p = { (int)pos.x, (int)pos.y }; ClientToScreen(windowHwnd, &p); SetCursorPos(p.x, p.y); }
+
+		void setMouseStatus(int status) {
+			input::mouseStatus = status;
+
+			switch (status) {
+			case MOUSE_NORMAL: showMouse(); break;
+			case MOUSE_LOCKED: hideMouse(); break;
+			case MOUSE_HIDDEN: hideMouse(); break;
+			}
+
+			if (status == MOUSE_LOCKED) {
+				RECT r;
+				GetWindowRect(windowHwnd, &r);
+				ClipCursor(&r);
+				//moldpos = (cst::res() / 2.f).floored();
+				setMousePos((cst::res() / 2.f).floored());
+			}
+			else {
+				ClipCursor(NULL);
+			}
+		}
+		int getMouseStatus() { return mouseStatus; }
+		void toggleMouseStatus() { if (mouseStatus == MOUSE_NORMAL || mouseStatus == MOUSE_HIDDEN) setMouseStatus(MOUSE_LOCKED); else setMouseStatus(MOUSE_NORMAL); }
 
 		Vector2f getMousePosNdc() {
 			if (getCursorInputMode() == GLFW_CURSOR_DISABLED) return disabledMousePos;

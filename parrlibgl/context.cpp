@@ -207,13 +207,13 @@ namespace prb {
 			if (!resizing && oldResizing)  funcs[FENDRESIZE]();
 
 			deltaTimer.set();
-			gtime::deltaTime = deltaTimer.getSec();
-			fps = 1.0 / deltaTimer.getSec();
+			gtime::deltaTime = deltaTimer.sec();
+			fps = 1.0 / deltaTimer.sec();
 			deltaTimer.reset();
 
 			lerpfps += (fps - lerpfps) * 6.f * gtime::deltaTime;
 			lerpDTime += (gtime::deltaTime - lerpDTime) * 6.f * gtime::deltaTime;
-			debug::rtlog << "FPS: " << (int)lerpfps << " (" << stru::toWString(stru::getTimeFormattedSec(lerpDTime, 2)) << ")\n";
+			deb::prt("FPS: ", (int)lerpfps, " (", stru::ts::fromSec(lerpDTime, 2), ")\n");
 
 			gtime::time = glfwGetTime();
 
@@ -487,7 +487,7 @@ namespace prb {
 			//fbo = FrameBufferObject((int)fboRes.x, (int)fboRes.y, GL_NEAREST, GL_NEAREST);
 			fbo.setFiltering(GL_NEAREST, GL_NEAREST);
 
-			tinit.set(); std::cout << "initialized (" << tinit.getTime() << ")\n";
+			tinit.set(); std::cout << "initialized (" << tinit.time() << ")\n";
 
 			initialized = true;
 

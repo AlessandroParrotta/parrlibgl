@@ -18,6 +18,7 @@
 namespace prb {
 	namespace input {
 
+		extern const int MOUSE_NORMAL, MOUSE_LOCKED, MOUSE_HIDDEN;
 		extern const int MOUSELEFT, MOUSERIGHT, MOUSEMIDDLE;
 
 		extern Vector2f rawMousePos;
@@ -86,6 +87,16 @@ namespace prb {
 		bool getMouseDown(int button, std::vector<unsigned long> layers);
 		bool getMouseUp(int button, std::vector<unsigned long> layers);
 		int getMouseScrollWheel(std::vector<unsigned long> layers);
+
+		void setMousePos(vec2 pos);
+
+		void setMouseVisible(bool visible);
+		void showMouse();
+		void hideMouse();
+
+		void toggleMouseStatus();
+		void setMouseStatus(int status);
+		int getMouseStatus();
 
 		bool leftClick();	//alias for input::getMouseUp(0)
 		bool rightClick();	//alias for input::getMouseUp(1)

@@ -12,7 +12,7 @@
 
 namespace prb {
 	std::string Shader::readShader(std::string const& fileName) {
-		if (fileName.compare("") == 0) return "";
+		if (fileName.compare("") == 0 || !std::filesystem::exists(fileName)) return "";
 
 		std::string fname = stru::fallbackPath(fileName);
 
@@ -222,7 +222,7 @@ namespace prb {
 				stru::fallbackPath(fileName + ".tes"),
 				stru::fallbackPath(fileName + ".geom"),
 				stru::fallbackPath(fileName + ".frag")
-				})));
+			})));
 		}
 	}
 
