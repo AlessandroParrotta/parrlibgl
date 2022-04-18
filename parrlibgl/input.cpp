@@ -3,8 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <parrlib/math/physics2d/physutil2.h>
-#include <parrlib/math/Vector2f.h>
+#include <parrlibcore/physics2d/physutil2.h>
+#include <parrlibcore/vector2f.h>
 
 #include "Context.h"
 #include "constants.h"

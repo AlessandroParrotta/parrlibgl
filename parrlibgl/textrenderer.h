@@ -13,13 +13,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <parrlibcore/vector2f.h>
+#include <parrlibcore/matrix3f.h>
+#include <parrlibcore/utils2d/axisalignedboundingbox2D.h>
+#include <parrlibcore/stringutils.h>
+
 #include "Texture.h"
 #include "VertexArrayObject.h"
 
-#include <parrlib/math/vector2f.h>
-#include <parrlib/math/matrix3f.h>
-#include <parrlib/math/utils2d/axisalignedboundingbox2D.h>
-#include <parrlib/math/stringutils.h>
 
 namespace prb {
 	class TextRenderer {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <parrlib/math/vector2f.h>
-#include <parrlib/math/utils2d/axisalignedboundingbox2d.h>
+#include <parrlibcore/vector2f.h>
+#include <parrlibcore/utils2d/axisalignedboundingbox2d.h>
 
 namespace prb {
 	namespace constants {

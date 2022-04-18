@@ -1,14 +1,14 @@
 #include "Shader.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <sstream>
 
-#include <parrlib/math/stringutils.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include <parrlibcore/stringutils.h>
 
 namespace prb {
 	std::string Shader::readShader(std::string const& fileName) {

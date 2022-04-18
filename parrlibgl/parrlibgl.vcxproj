@@ -34,6 +34,7 @@
     <ClInclude Include="indexbufferobject.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="khrplatform.h" />
+    <ClInclude Include="mesh3d.h" />
     <ClInclude Include="networking\tcpclientconnection.h" />
     <ClInclude Include="networking\tcpserver.h" />
     <ClInclude Include="networking\udpconnection.h" />
@@ -64,6 +65,7 @@
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="indexbufferobject.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="mesh3d.cpp" />
     <ClCompile Include="networking\tcpclientconnection.cpp" />
     <ClCompile Include="networking\tcpserver.cpp" />
     <ClCompile Include="networking\udpconnection.cpp" />
@@ -143,8 +145,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(ParrotIntDir)$(SolutionName)\$(Platform)\$(Configuration)</IntDir>
-    <IncludePath>$(ParrlibIncludeDir);$(ParrotIncludeDir);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(ParrotLibDir)$(Platform)\$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(ParrlibIncludeDir);$(ParrlibcoreIncludeDir);$(ParrotIncludeDir);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(ParrlibcoreLibDir);$(ParrotLibDir);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

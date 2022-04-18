@@ -1,8 +1,8 @@
 #pragma once
 
-#include <parrlib/math/vector3f.h>
-#include <parrlib/math/quaternion.h>
-#include <parrlib/math/matrix4f.h>
+#include <parrlibcore/vector3f.h>
+#include <parrlibcore/quaternion.h>
+#include <parrlibcore/matrix4f.h>
 
 #include "input.h"
 

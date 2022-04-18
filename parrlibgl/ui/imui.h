@@ -1,6 +1,6 @@
 #pragma once
 
-#include <parrlib/math/matrix3f.h>
+#include <parrlibcore/matrix3f.h>
 #include "../globals.h"
 
 namespace prb {

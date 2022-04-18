@@ -1,6 +1,6 @@
 #pragma once
 
-#include <parrlib/math/utils3d/geom3d.h>
+#include <parrlibcore/utils3d/geom3d.h>
 
 #include "vertexarrayobject.h"
 #include "globals.h"

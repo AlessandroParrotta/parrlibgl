@@ -8,9 +8,10 @@
 #include <time.h>
 #include <thread>
 
-#include <parrlib/math/stringutils.h>
-#include <parrlib/math/timer.h>
-#include <parrlib/time.h>
+#include <parrlibcore/stringutils.h>
+#include <parrlibcore/timer.h>
+
+#include <parrlibcore/tick.h>
 
 #include "input.h"
 #include "debug.h"
@@ -91,7 +92,7 @@ namespace prb {
 			changingFullscreen = true;
 			prc::fullscreen = fullscreen;
 
-			std::cout << "setting fullscreen " << fullscreen << "\n";
+			deb::out("setting fullscreen ", fullscreen, "\n");
 
 			GLFWmonitor* mnt = glfwGetWindowMonitor(glfwwindow);
 			if (!fullscreen && mnt) {		//if it's not fullscreen
@@ -143,7 +144,7 @@ namespace prb {
 
 		void setFullscreen(bool fullscreen) {
 			if (initialized) {
-				std::cout << "set priv! " << fullscreen << "\n";
+				deb::out("set priv! ", fullscreen, "\n");
 				setFullscreenPriv(fullscreen);
 			}
 			else prc::fullscreen = fullscreen;
@@ -207,15 +208,15 @@ namespace prb {
 			if (!resizing && oldResizing)  funcs[FENDRESIZE]();
 
 			deltaTimer.set();
-			gtime::deltaTime = deltaTimer.sec();
+			tick::deltaTime = deltaTimer.sec();
 			fps = 1.0 / deltaTimer.sec();
 			deltaTimer.reset();
 
-			lerpfps += (fps - lerpfps) * 6.f * gtime::deltaTime;
-			lerpDTime += (gtime::deltaTime - lerpDTime) * 6.f * gtime::deltaTime;
+			lerpfps += (fps - lerpfps) * 6.f * tick::deltaTime;
+			lerpDTime += (tick::deltaTime - lerpDTime) * 6.f * tick::deltaTime;
 			deb::prt("FPS: ", (int)lerpfps, " (", stru::ts::fromSec(lerpDTime, 2), ")\n");
 
-			gtime::time = glfwGetTime();
+			tick::time = glfwGetTime();
 
 			input::processInput(glfwwindow);
 
@@ -295,7 +296,7 @@ namespace prb {
 				fbo.unbind();
 			}
 
-			if (util::mStack.size() > 1) std::cout << "warning: degenerate matrix stack at end of frame\n";
+			if (util::mStack.size() > 1) deb::out("warning: degenerate matrix stack at end of frame\n");
 
 			util::mStack.clear();
 			util::mStack.push_back(1.f);
@@ -425,7 +426,7 @@ namespace prb {
 		//ShowWindow(hWnd, SW_HIDE);
 		void setup(std::vector<std::function<void()>> const& tfuncs, std::string const& args) {
 			Timer tinit;
-			std::cout << "initializing...\n";
+			deb::out("initializing...\n");
 
 			if (cst::resx() != 0.f && cst::resy() != 0.f && vscalingMode == SCALING_MODE_ONE_TO_ONE) scalingMode(SCALING_MODE_FLOATING_RATIO);
 
@@ -435,24 +436,24 @@ namespace prb {
 			}
 			for (int i = 0; i < funcs.size(); i++) { if (funcs[i] == NULL) funcs[i] = [] {}; }
 
-			if (!glfwInit()) { std::cout << "failed to initialize GLFW!\n"; std::terminate(); }
+			if (!glfwInit()) { deb::out("failed to initialize GLFW!\n"); std::terminate(); }
 
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
 			glfwmonitor = glfwGetPrimaryMonitor();
-			if (!glfwmonitor) { std::cout << "error trying to get primary monitor\n"; std::terminate(); }
+			if (!glfwmonitor) { deb::out("error trying to get primary monitor\n"); std::terminate(); }
 
 			monitorvidmode = glfwGetVideoMode(glfwmonitor);
-			if (!monitorvidmode) { std::cout << "error trying to get video mode\n"; std::terminate(); }
+			if (!monitorvidmode) { deb::out("error trying to get video mode\n"); std::terminate(); }
 
 			refreshRate = monitorvidmode->refreshRate;
 			if(cst::resx() == 0.f || cst::resy() == 0.f) cst::res(vec2(monitorvidmode->width, monitorvidmode->height));
 
 			glfwWindowHint(GLFW_REFRESH_RATE, refreshRate);
 
-			std::cout << "native config: " << monitorvidmode->width << "x" << monitorvidmode->height << " @ " << monitorvidmode->refreshRate << "hz (bits " << monitorvidmode->redBits << "r" << monitorvidmode->greenBits << "g" << monitorvidmode->blueBits << "b)\n";
+			deb::out("native config: ", monitorvidmode->width, "x", monitorvidmode->height, " @ ", monitorvidmode->refreshRate, "hz (bits ", monitorvidmode->redBits, "r", monitorvidmode->greenBits, "g", monitorvidmode->blueBits, "b)\n");
 
 			vidmodes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &vidmodecount);
 
@@ -461,7 +462,7 @@ namespace prb {
 #endif
 
 			glfwwindow = glfwCreateWindow(monitorvidmode->width, monitorvidmode->height, title.c_str(), NULL, NULL);
-			if (!glfwwindow) { std::cout << "failed to create window!\n"; std::terminate(); }
+			if (!glfwwindow) { deb::out("failed to create window!\n"); std::terminate(); }
 
 			glfwMakeContextCurrent(glfwwindow);
 			glfwSetCursorPosCallback(glfwwindow, curposcallback);
@@ -469,10 +470,10 @@ namespace prb {
 			glfwSetScrollCallback(glfwwindow, scrollcallback);
 			glfwSetCharCallback(glfwwindow, charcallback);
 
-			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { std::cout << "Failed to initialize GLAD" << std::endl; std::terminate(); }
+			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { deb::out("Failed to initialize GLAD\n"); std::terminate(); }
 
 			wsize = vec2(monitorvidmode->width, monitorvidmode->height);
-			if (cst::resx() == 0.f || cst::resy() == 0.f) { std::cout << "automatically setting resoliution to " << wsize << "\n"; cst::res(wsize); }
+			if (cst::resx() == 0.f || cst::resy() == 0.f) { deb::out("automatically setting resoliution to ", wsize, "\n"); cst::res(wsize); }
 
 			input::addActiveLayer(INPUT_LAYER_DEFAULT);
 
@@ -487,7 +488,7 @@ namespace prb {
 			//fbo = FrameBufferObject((int)fboRes.x, (int)fboRes.y, GL_NEAREST, GL_NEAREST);
 			fbo.setFiltering(GL_NEAREST, GL_NEAREST);
 
-			tinit.set(); std::cout << "initialized (" << tinit.time() << ")\n";
+			tinit.set(); deb::out("initialized (", tinit.time(), ")\n");
 
 			initialized = true;
 
@@ -500,7 +501,7 @@ namespace prb {
 
 			glfwMaximizeWindow(glfwwindow);
 
-			std::cout << "set fullscreen " << fullscreen << "\n";
+			deb::out("set fullscreen ", fullscreen, "\n");
 			setFullscreenPriv(fullscreen);
 
 			if (scalingMode() == SCALING_MODE_ONE_TO_ONE) cst::res(wsize);
@@ -542,7 +543,7 @@ namespace prb {
 	}
 
 	//void window_iconify_callback(GLFWwindow* window, int iconified) {
-	//	std::cout << "Iconify callback!\n";
+	//	deb::out("Iconify callback!\n");
 	//}
 	//
 	//void window_refresh_callback(GLFWwindow* window) {
@@ -550,6 +551,6 @@ namespace prb {
 	//}
 	//
 	//void window_focus_callback(GLFWwindow* window, int focused) {
-	//	std::cout << "Focus callback!\n";
+	//	deb::out("Focus callback!\n");
 	//}
 }

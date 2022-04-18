@@ -9,8 +9,8 @@
 
 #include <SOIL/SOIL.h>
 
-#include <parrlib/math/Matrix3f.h>
-#include <parrlib/math/Vector4f.h>
+#include <parrlibcore/Matrix3f.h>
+#include <parrlibcore/Vector4f.h>
 
 namespace prb {
 	class Texture {

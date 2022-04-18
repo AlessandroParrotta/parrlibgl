@@ -7,15 +7,15 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <parrlib/math/vector2f.h>
-#include <parrlib/math/vector3f.h>
-#include <parrlib/math/vector4f.h>
-#include <parrlib/math/utils2d/axisalignedboundingbox2d.h>
+#include <parrlibcore/vector2f.h>
+#include <parrlibcore/vector3f.h>
+#include <parrlibcore/vector4f.h>
+#include <parrlibcore/utils2d/axisalignedboundingbox2d.h>
+#include <parrlibcore/otherutil.h>
+#include <parrlibcore/matrix3f.h>
+
 #include "constants.h"
 
-#include <parrlib/math/otherutil.h>
-
-#include <parrlib/math/matrix3f.h>
 
 namespace prb {
 	class FrameBufferObject;

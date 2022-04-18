@@ -1,8 +1,8 @@
 #include "Texture.h"
 
-#include "Util.h"
+#include <parrlibcore/stringutils.h>
 
-#include <parrlib/math/stringutils.h>
+#include "Util.h"
 
 namespace prb {
 	void Texture::fillRegion(vec2 pos, vec2 size, GLenum format, const void* data) {

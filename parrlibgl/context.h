@@ -8,7 +8,8 @@
 
 #include "debugmenu/debugmenu.h"
 
-#include <parrlib/time.h>
+#include <parrlibcore/tick.h>
+
 #include "Input.h"
 #include "FrameBufferObject.h"
 #include "Shader.h"

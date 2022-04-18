@@ -1,6 +1,6 @@
 #include "constants.h"
 
-#include <parrlib/math/vector2f.h>
+#include <parrlibcore/vector2f.h>
 
 namespace prb {
 	namespace constants {
