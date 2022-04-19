@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-#include <parrlibcore/stringutils.h>
+#include "stringutils.h"
 
 #include "Util.h"
 
@@ -311,7 +311,7 @@ namespace prb {
 		//size = vec2(width, height);
 		//texID = id;
 
-		std::string tfileName = stru::fallbackPath(fileName);
+		std::string tfileName = strup::fallbackPath(fileName);
 
 		texID = SOIL_load_OGL_texture(tfileName.c_str(), SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 		if (texID == 0) return;

@@ -12,6 +12,7 @@
 #include <parrlibcore/vector4f.h>
 #include <parrlibcore/utils2d/axisalignedboundingbox2d.h>
 #include <parrlibcore/otherutil.h>
+#include <parrlibcore/stringutils.h>
 #include <parrlibcore/matrix3f.h>
 
 #include "constants.h"
@@ -110,6 +111,10 @@ namespace prb {
 		void drawText(int const& fontSize, vec2 const& pos);
 		void drawText(mat3 const& transform);
 		void drawText(vec2 const& pos);
+
+		template<typename... Args> inline void drawText(int const& fontSize, mat3 const& transform, Args... args) { text << stru::composew(args...); drawText("assets/fonts/segoeui.ttf", fontSize, transform); }
+		template<typename... Args> inline void drawText(int const& fontSize, vec2 const& pos, Args... args) { text << stru::composew(args...); drawText(fontSize, pmat3::translate(pos)); }
+
 
 		aabb2 getTextBound(std::string const& font, int const& fontSize, mat3 const& transform);
 		aabb2 getTextBound(mat3 const& transform);

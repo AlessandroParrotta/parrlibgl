@@ -15,7 +15,7 @@ namespace prb {
 	}
 
 	void Mesh3D::drawDefaultShader(mat4 const& proj, mat4 const& tr) {
-		Shader& sh = glb::getShader("assets/shaders/mesh3draw");
+		Shader& sh = glb::shader("assets/shaders/mesh3draw");
 
 		sh.use();
 		sh.setUniform("textured", !tex.null());
@@ -23,7 +23,7 @@ namespace prb {
 
 		sh.setUniform("transform", proj * tr);
 		sh.setUniform("rotm", tr.transposed().inverted().rotation());
-		sh.setUniform("dirlight", vec3(1.f));
+		sh.setUniform("dirlight", -vec3(1.f));
 		//sh.setUniform("dirlight", vec3(1.f));
 
 		draw();

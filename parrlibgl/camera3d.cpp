@@ -14,7 +14,7 @@ namespace prb {
 
 		if (input::getKeyDown('Z')) input::toggleMouseStatus();
 		if (input::getMouseStatus() == input::MOUSE_LOCKED) {
-			vec3 sens = vec3(input::getMouseDeltaConst(), .5f * tick::deltaTime) * rotSens;
+			vec3 sens = vec3(input::getMouseDeltaConst(), 20.f * tick::deltaTime) * rotSens;
 			//rot = pquat::lookAt(pos, 0.f, quat(tick::time, fw()) * v3ax::upv3);
 			rot *=	quat(-sens.x, v3ax::upv3) *
 					quat(-sens.y, v3ax::riv3) *

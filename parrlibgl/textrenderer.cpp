@@ -11,7 +11,7 @@ void TextRenderer::addFont(std::string const& font) {
 	fonts[font];//initialize the font
 	auto& f = fonts[font];  //reference to the font
 	
-	std::string ffont = stru::fallbackPath(font);
+	std::string ffont = strup::fallbackPath(font);
 
 	if (FT_New_Face(library, ffont.c_str(), 0, &f.face)) {
 		fprintf(stderr, "Error: Could not load font '%s'.", font.c_str());

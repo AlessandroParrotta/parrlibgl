@@ -36,6 +36,8 @@ namespace prb {
 		aabb2 wbb = 0.f;		//frontbuffer bounding box
 		aabb2 sbb = 0.f;		//logical screen bounding box
 		int refreshRate = 60;
+		int samples = 1;
+		void setAntiAliasing(int samples) { Context::samples = samples; }
 
 		GLFWwindow* glfwwindow;
 		GLFWmonitor* glfwmonitor;
@@ -441,6 +443,7 @@ namespace prb {
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+			if(samples > 1) glfwWindowHint(GLFW_SAMPLES, samples);
 
 			glfwmonitor = glfwGetPrimaryMonitor();
 			if (!glfwmonitor) { deb::out("error trying to get primary monitor\n"); std::terminate(); }
@@ -474,7 +477,9 @@ namespace prb {
 
 			wsize = vec2(monitorvidmode->width, monitorvidmode->height);
 			if (cst::resx() == 0.f || cst::resy() == 0.f) { deb::out("automatically setting resoliution to ", wsize, "\n"); cst::res(wsize); }
-
+			
+			glFrontFace(GL_CW);
+			
 			input::addActiveLayer(INPUT_LAYER_DEFAULT);
 
 			util::init();

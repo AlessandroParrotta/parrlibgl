@@ -16,8 +16,8 @@
 #include <parrlibcore/vector2f.h>
 #include <parrlibcore/matrix3f.h>
 #include <parrlibcore/utils2d/axisalignedboundingbox2D.h>
-#include <parrlibcore/stringutils.h>
 
+#include "stringutils.h"
 #include "Texture.h"
 #include "VertexArrayObject.h"
 

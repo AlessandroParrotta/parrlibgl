@@ -173,16 +173,16 @@ namespace prb {
 
 		void useAtlas(std::string const& name) { state.atlas = name; }
 
-		void setTxr(std::vector<std::string> const& fonts, int const& fontSize) { glb::setTxr("imui", fonts, fontSize); }
+		void setTxr(std::vector<std::string> const& fonts, int const& fontSize) { glb::txr("imui", fonts, fontSize); }
 		void setTxr(std::string const& font, int const& fontSize) { setTxr(std::vector<std::string>{ font }, fontSize); }
-		TextRenderer& getTxr() { return glb::getTxr(glbid); }
+		TextRenderer& getTxr() { return glb::txr(glbid); }
 
 		void setTextColor(vec4 color) { getTxr().color(color); }
 		void setTextOutlineColor(vec4 color) { getTxr().outlineColor(color); }
 		vec4 getTextColor() { return getTxr().color(); }
 		vec4 getTextOutlineColor() { return getTxr().outlineColor(); }
 
-		Sprite& getSprite() { return glb::getSprite(state.atlas); }
+		Sprite& getSprite() { return glb::sprite(state.atlas); }
 
 		void drawsprite(mat3 const& transform) {
 			if (imui::state.atlas.compare("") == 0) return;
@@ -217,22 +217,22 @@ namespace prb {
 		}
 
 		void drawstr(std::wstring const& str, std::wstring const& modstr, vec2 const& off, aabb2 const& bb, mat3 const& tr) {
-			glb::getTxr(glbid).drawWStringpx(str, modstr, off, space * bb, tr);
+			glb::txr(glbid).drawWStringpx(str, modstr, off, space * bb, tr);
 		}
 		void drawstr(std::wstring const& str, vec2 const& off, aabb2 const& bb, mat3 const& tr) {
-			glb::getTxr(glbid).drawWStringpx(str, off, space * bb, tr);
+			glb::txr(glbid).drawWStringpx(str, off, space * bb, tr);
 		}
 
 		void drawstr(std::wstring const& str, vec2 const& off, mat3 const& tr) {
-			glb::getTxr(glbid).drawWStringpx(str, off, tr);
+			glb::txr(glbid).drawWStringpx(str, off, tr);
 		}
 
 		TextRenderer::bwstring strbbw(std::wstring const& str, vec2 const& off, aabb2 const& bb, mat3 const& tr){
-			return glb::getTxr(glbid).getWStringBoundedpx(str, space * bb, off, L"", tr);
+			return glb::txr(glbid).getWStringBoundedpx(str, space * bb, off, L"", tr);
 		}
 
 		TextRenderer::bwstring strbbw(std::wstring const& str, aabb2 const& bb, vec2 const& off, std::wstring const& modstr, mat3 const& tr) {
-			return glb::getTxr(glbid).getWStringBoundedpx(str, space * bb, off, modstr, tr);
+			return glb::txr(glbid).getWStringBoundedpx(str, space * bb, off, modstr, tr);
 		}
 
 		aabb2 strbb(std::wstring const& str, vec2 const& off, aabb2 const& bb, mat3 const& tr) {

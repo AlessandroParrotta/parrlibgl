@@ -33,6 +33,7 @@ namespace prb {
 		extern bool inApp; //whether the program is inside the app function
 
 		void setFiltering(GLint filtering);
+		void setAntiAliasing(int samples);
 
 		extern GLint fboid; //currently bound fbo
 

@@ -508,8 +508,8 @@ namespace prb {
 
 
 		void setMouseVisible(bool visible) {
-			if (visible) while (ShowCursor(true) < 0) {}
-			else		while (ShowCursor(false) >= 0) {}
+			if (visible) glfwSetInputMode(prc::glfwwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			else		 glfwSetInputMode(prc::glfwwindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		}
 		void showMouse() { setMouseVisible(true); }
 		void hideMouse() { setMouseVisible(false); }
@@ -521,19 +521,20 @@ namespace prb {
 
 			switch (status) {
 			case MOUSE_NORMAL: showMouse(); break;
-			case MOUSE_LOCKED: hideMouse(); break;
+			//case MOUSE_LOCKED: hideMouse(); break;
 			case MOUSE_HIDDEN: hideMouse(); break;
 			}
 
 			if (status == MOUSE_LOCKED) {
-				RECT r;
-				GetWindowRect(windowHwnd, &r);
-				ClipCursor(&r);
-				//moldpos = (cst::res() / 2.f).floored();
-				setMousePos((cst::res() / 2.f).floored());
+				glfwSetInputMode(prc::glfwwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				//RECT r;
+				//GetWindowRect(windowHwnd, &r);
+				//ClipCursor(&r);
+				////moldpos = (cst::res() / 2.f).floored();
+				//setMousePos((cst::res() / 2.f).floored());
 			}
 			else {
-				ClipCursor(NULL);
+				//ClipCursor(NULL);
 			}
 		}
 		int getMouseStatus() { return mouseStatus; }

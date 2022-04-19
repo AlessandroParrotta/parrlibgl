@@ -8,13 +8,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <parrlibcore/stringutils.h>
+#include "stringutils.h"
 
 namespace prb {
 	std::string Shader::readShader(std::string const& fileName) {
-		if (fileName.compare("") == 0 || !std::filesystem::exists(fileName)) return "";
+		if (fileName.compare("") == 0) return "";
 
-		std::string fname = stru::fallbackPath(fileName);
+		std::string fname = strup::fallbackPath(fileName);
 
 		std::string shaderCode;
 		std::ifstream file(fname, std::ios::in);
@@ -200,7 +200,7 @@ namespace prb {
 
 		std::vector<std::string> shaders;
 		if (fl[2].compare(".sh") == 0) {
-			std::string fback = stru::fallbackPath(fileName);
+			std::string fback = strup::fallbackPath(fileName);
 			std::fstream f(fback, std::ios::in);
 
 			if (!f.good()) { std::cout << "could not find shader '" + fileName + "'!\n"; return; }
@@ -218,10 +218,10 @@ namespace prb {
 		}
 		else if (fl[2].compare("") == 0) {
 			this->program = createProgram(compileShaders(getSourceCodes({
-				stru::fallbackPath(fileName + ".vert"),
-				stru::fallbackPath(fileName + ".tes"),
-				stru::fallbackPath(fileName + ".geom"),
-				stru::fallbackPath(fileName + ".frag")
+				fileName + ".vert",
+				fileName + ".tes",
+				fileName + ".geom",
+				fileName + ".frag"
 			})));
 		}
 	}

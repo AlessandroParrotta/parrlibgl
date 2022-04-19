@@ -5,9 +5,9 @@
 #include <array>
 
 #include <parrlibcore/matrix3f.h>
-#include <parrlibcore/stringutils.h>
 #include <parrlibcore/otherutil.h>
 
+#include "stringutils.h"
 #include "texture.h"
 #include "time.h"
 

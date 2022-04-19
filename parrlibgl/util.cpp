@@ -318,7 +318,7 @@ namespace prb {
 		void drawText(int const& fontSize, vec2 const& pos) { drawText(fontSize, pmat3::translate(pos)); }
 		void drawText(mat3 const& transform) { drawText("assets/fonts/segoeui.ttf", 15, transform); }
 		void drawText(vec2 const& pos) { drawText(pmat3::translate(pos)); }
-
+		
 		aabb2 getTextBound(std::string const& font, int const& fontSize, mat3 const& transform) {
 			if (txrs.find(fontSize) == txrs.end()) txrs[fontSize] = TextRenderer({ font }, fontSize);
 			return txrs[fontSize].getAABBpx(transform);
