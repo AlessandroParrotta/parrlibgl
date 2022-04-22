@@ -1021,7 +1021,7 @@ namespace prb {
 			bool rem = true;
 			while (rem) {
 				rem = false;
-				for (auto& c : pingContainers) if (!c.second) { containers.erase(c.first); pingContainers.erase(c.first); posContainers.erase(c.first); rem = true; break; }
+				for (auto& c : pingContainers) if (!c.second) { containers.erase(c.first); posContainers.erase(c.first); pingContainers.erase(c.first); rem = true; break; }
 			}
 		
 
