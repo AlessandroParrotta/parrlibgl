@@ -40,6 +40,12 @@ namespace prb {
 		mat3 getMaxAspectOrtho() { return pmat3::orthoMaxAspect(cst::res()); }
 		mat3 getAspectOrtho() { return pmat3::orthoMaxAspect(cst::res()).inverted(); }
 
+		mat3 getAspectOrthoXInv() { return pmat3::orthoAspectXInv(cst::res()); }
+		mat3 getAspectOrthoYInv() { return pmat3::orthoAspectYInv(cst::res()); }
+		mat3 getMinAspectOrthoInv() { return pmat3::orthoMinAspectInv(cst::res()); }
+		mat3 getMaxAspectOrthoInv() { return pmat3::orthoMaxAspectInv(cst::res()); }
+		mat3 getAspectOrthoInv() { return pmat3::orthoMaxAspectInv(cst::res()); }
+
 		mat3 fromNdc() { return pmat3::fromNdc({ 0.f, cst::res() }); }
 		mat3 toNdc() { return pmat3::toNdc({ 0.f, cst::res() }); }
 

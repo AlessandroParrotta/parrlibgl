@@ -40,7 +40,7 @@ TextRenderer::TextRenderer(std::vector<std::string> const& fontNames, int const&
 
 	sh = Shader("assets/shaders/textRender.vert", "assets/shaders/textRender.frag");
 
-	vao = { { {{}, 4}, {{}, 4 } } }; //4 cause xy = pos, zw = texCoord, 4 color
+	vao = { { {{ 0.f }, 4}, {{ 0.f }, 4 } } }; //4 cause xy = pos, zw = texCoord, 4 color
 
 	if (FT_Init_FreeType(&library)) {
 		fprintf(stderr, "\nError: Could not load FreeType library.");
@@ -378,6 +378,8 @@ void TextRenderer::drawWStringpx(std::string const& font, vec2 const& offset, aa
 
 	drawWStringpx(str, font, offset, bound, transform);
 }
+
+void TextRenderer::drawText(std::wstring const& str, vec2 const& pos) { drawWStringpx(str, vec2(1.f), pmat3::translate(pos)); }
 
 aabb2 TextRenderer::getAABBReal(std::wstring const& str, std::string const& font, vec2 const& off, mat3 const& transform) {
 	std::string tfont = font;

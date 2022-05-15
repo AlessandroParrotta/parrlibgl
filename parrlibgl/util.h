@@ -45,6 +45,12 @@ namespace prb {
 		mat3 getMaxAspectOrtho();
 		mat3 getAspectOrtho();
 
+		mat3 getAspectOrthoXInv();
+		mat3 getAspectOrthoYInv();
+		mat3 getMinAspectOrthoInv();
+		mat3 getMaxAspectOrthoInv();
+		mat3 getAspectOrthoInv();
+
 		mat3 fromNdc();
 		mat3 toNdc();
 
