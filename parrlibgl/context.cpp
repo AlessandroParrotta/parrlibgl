@@ -476,7 +476,7 @@ namespace prb {
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { deb::out("Failed to initialize GLAD\n"); std::terminate(); }
 
 			wsize = vec2(monitorvidmode->width, monitorvidmode->height);
-			if (cst::resx() == 0.f || cst::resy() == 0.f) { deb::out("automatically setting resoliution to ", wsize, "\n"); cst::res(wsize); }
+			if (cst::resx() == 0.f || cst::resy() == 0.f) { deb::out("automatically setting resolution to ", wsize, "\n"); cst::res(wsize); }
 			
 			glFrontFace(GL_CW);
 			
